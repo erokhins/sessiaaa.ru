@@ -1,9 +1,21 @@
-.sticker {
-	width: 140px;
-	height: 120px;
-	background-color: #fff;
+.sticker .number {
 	font-size: 100px;
 	text-align: center; 
+	height: 170px !important;
 	vertical-align: middle;
 	display: table-cell;
+}
+.sticker {
+	width: 190px !important;
+	background-color: #fff;
+}
+.sticker .container-fluid { 
+	padding: 0;
+	margin: 0;
+}
+.sticker .aaa  {
+	width: 86%;
+}
+.sticker .aaa2  {
+	width: 14%;
 }

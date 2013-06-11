@@ -38,8 +38,47 @@ if (isset($_GET['url'])) {
 				<p class="text-info">Добавлять отсюда:</p>
 					
 				<table width=100%><tr><td align="center">
+					<table class="well text-success" style="background-color:white">
+						<tr><td class = "sticker ">13</td></tr>
+						<tr><td  align = right>
+							<div class = "btn-group">
+								<button class="btn">..</button>
+							</div>
+						</td></tr>
+					</table>
+					
+					<table class="well sticker">
+						<tr><td class = "number"><img src="/img/sleep.jpg"/></td></tr>
+						<tr><td align = "center" >
+							<span>
+								<div class ="btn-group text-right dropdown row-fluid"> 
+								   <button class="btn aaa">Сон</button>
+									<button class="btn dropdown-toggle aaa2" data-toggle="dropdown">
+										<span class="caret"></span>
+									</button>
+								</div>
+							</span>
+						</td></tr>
+					</table>
+					
+					
+					<table class="well sticker">
+						<tr><td class = "number">13</td></tr>
+						<tr><td align = "center">
+							<div class ="btn-group text-right dropdown"> 
+								<button class="btn btn-success">:)</button>
+								<button class="btn btn-warning">:(</button>
+								<button class="btn btn-danger">:'(</button>
+								<button class="btn btn-info">1 <i class="icon-envelope"></i></button>
+								<button class="btn dropdown-toggle" data-toggle="dropdown">
+									<span class="caret"></span>
+								</button>
+							</div>
+						</td></tr>
+					</table>
+					
 					<table class="well text-success">
-						<tr><td class = "sticker well">13</td></tr>
+						<tr><td class = "sticker ">13</td></tr>
 						<tr><td class ="btn-group">
 							<button class="btn btn-success">:)</button>
 							<button class="btn btn-warning">:(</button>
@@ -49,7 +88,7 @@ if (isset($_GET['url'])) {
 						</td></tr>
 					</table>
 					<table class="well text-error">
-						<tr><td class = "sticker well">14</td></tr>
+						<tr><td class = "sticker ">14</td></tr>
 						<tr><td class ="btn-group">
 							<button class="btn btn-success">:)</button>
 							<button class="btn btn-warning">:(</button>
@@ -72,5 +111,10 @@ if (isset($_GET['url'])) {
 		
 		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/js/sessiaaa.js"></script>
+		<script>
+			test();
+		</script>
+		
     </body>
 </html>
