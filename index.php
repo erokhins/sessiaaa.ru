@@ -23,80 +23,53 @@ if (isset($_GET['url'])) {
 		<!-- Bootstrap -->
 		<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="/css/sessiaaa.css" rel="stylesheet" media="screen">
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.dragsort-0.4.min.js"></script>
+	
+		<script src="/js/sessiaaa.js"></script>
+		<script src="/js/render.js"></script>
+		
+		 <style>
+</style>
+
     </head>
     <body>
 		<h1 class="text-center">Hello, Sessia number <?=$id?></h1>
 
+
+	
+	
 <!-- Site start -->
 <div class="container-fluid">				
-	<div class="row-fluid">
-		<div class="span9">
-			1
+
+	<div class="">
+		<div style="width:70%; display:inline-block">
+			<div id="myLabel">label</div>
+			<ul id="sortable">
+				
+<script>
+	for (i = 0; i < 4; i++) {
+		document.write("<li>"+Render.simpleSticker('st'+i, i, '&nbsp;')+"</li>");
+		
+		document.write("<li>"+Render.funnySticker('st10'+i, '/img/'+i+'.jpg', "label: " + i)+"</li>");	
+	}
+	
+</script>
+			</ul>
 		</div>
-		<div class="span3">
+		<div style="width:20%; display:inline-block">
 			<div class="well ">
 				<p class="text-info">Добавлять отсюда:</p>
 					
 				<table width=100%><tr><td align="center">
-					<table class="well text-success" style="background-color:white">
-						<tr><td class = "sticker ">13</td></tr>
-						<tr><td  align = right>
-							<div class = "btn-group">
-								<button class="btn">..</button>
-							</div>
-						</td></tr>
-					</table>
-					
-					<table class="well sticker">
-						<tr><td class = "number"><img src="/img/sleep.jpg"/></td></tr>
-						<tr><td align = "center" >
-							<span>
-								<div class ="btn-group text-right dropdown row-fluid"> 
-								   <button class="btn aaa">Сон</button>
-									<button class="btn dropdown-toggle aaa2" data-toggle="dropdown">
-										<span class="caret"></span>
-									</button>
-								</div>
-							</span>
-						</td></tr>
-					</table>
-					
-					
-					<table class="well sticker">
-						<tr><td class = "number">13</td></tr>
-						<tr><td align = "center">
-							<div class ="btn-group text-right dropdown"> 
-								<button class="btn btn-success">:)</button>
-								<button class="btn btn-warning">:(</button>
-								<button class="btn btn-danger">:'(</button>
-								<button class="btn btn-info">1 <i class="icon-envelope"></i></button>
-								<button class="btn dropdown-toggle" data-toggle="dropdown">
-									<span class="caret"></span>
-								</button>
-							</div>
-						</td></tr>
-					</table>
-					
-					<table class="well text-success">
-						<tr><td class = "sticker ">13</td></tr>
-						<tr><td class ="btn-group">
-							<button class="btn btn-success">:)</button>
-							<button class="btn btn-warning">:(</button>
-							<button class="btn btn-danger">:'(</button>
-							<button class="btn btn-info">3 <i class="icon-envelope"></i></button>
-							<button class="btn">..</button>
-						</td></tr>
-					</table>
-					<table class="well text-error">
-						<tr><td class = "sticker ">14</td></tr>
-						<tr><td class ="btn-group">
-							<button class="btn btn-success">:)</button>
-							<button class="btn btn-warning">:(</button>
-							<button class="btn btn-danger">:'(</button>
-							<button class="btn btn-info">3 <i class="icon-envelope"></i></button>
-							<button class="btn">C</button>
-						</td></tr>
-					</table>
+
+
+<script>
+	for (i = 0; i < -1; i++) {
+		document.write(Render.simpleSticker('st'+i, i, '&nbsp;'));	
+	}
+</script>
 				
 				</td></tr></table>
 					
@@ -109,12 +82,19 @@ if (isset($_GET['url'])) {
 <!-- Site end -->
 		
 		
-		<script src="http://code.jquery.com/jquery.js"></script>
-		<script src="/bootstrap/js/bootstrap.min.js"></script>
-		<script src="/js/sessiaaa.js"></script>
+
 		<script>
 			test();
+			var fuckY = Render.simpleSticker('0000', '', '&nbsp;');
+			$("#sortable").dragsort({ 
+				dragSelector: "li", 
+				dragEnd: function() { }, 
+				dragBetween: true, 
+				placeHolderTemplate: "<li class = 'emptyLi'>"+fuckY+"</li>" 
+				});
 		</script>
+		
+
 		
     </body>
 </html>
