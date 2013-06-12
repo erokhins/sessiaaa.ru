@@ -16,10 +16,11 @@ Stickers.funnySticker = function(stickerId, stickerType, label) {
 	this.label = label;
 }
 
-Stickers.allInf = function(allStickers, messages, counter) {
+Stickers.allInf = function(allStickers, messages, counter, name) {
 	this.allStickers = allStickers;
 	this.messages = messages;
 	this.counter = counter;
+	this.name = name;
 }
 
 Stickers.renderAllStickers = function(all) {
@@ -83,15 +84,16 @@ Stickers.getAllStickers = function() {
 }
 
 Stickers.createAllInf = function() {
-	return new Stickers.allInf(Stickers.getAllStickers(), MessagesMap, Event.counter);
+	var name = $("#main_name").html();
+	return new Stickers.allInf(Stickers.getAllStickers(), MessagesMap, Event.counter, name);
 }
 
-Stickers.createNewInf = function(count) {
+Stickers.createNewInf = function(count, name) {
 	var all = Array();
 	for (i = 0; i< count; i++) {
 		all[i] = new Stickers.simpleSticker(i+1, i+1, 0, ' ');
 	}
-	return new Stickers.allInf(all, Array(), count+2);
+	return new Stickers.allInf(all, Array(), count+2, name);
 }
 
 var MessagesMap = Array();
@@ -104,13 +106,18 @@ var Event = Object();
 Event.counter = 10;
 
 Event.saveAll = function() {
-	$.post("/ajax.php", {"saveAll": JSON.stringify(Stickers.createAllInf())});
+	var name = $("#main_name").html();
+	var ids = window.location.pathname.split('/');
+	var id = ids[ids.length - 1];
+	log(id);
+	$.post("/ajax.php", {"id": id, "name": name, "saveAll": JSON.stringify(Stickers.createAllInf())});
 } 
 
 Event.loadSaveAll = function(ob) {
 //	var ob = jQuery.parseJSON(saveAll);
 	MessagesMap = ob.messages;
 	Event.counter = ob.counter;
+	$("#main_name").html(ob.name);
 	$("#sortable").html(Stickers.renderAllStickers(ob.allStickers));
 	Event.dragEnd(false);
 }
@@ -120,6 +127,12 @@ Event.dragEnd = function(update) {
 	Event.counter = Event.counter + 1;
 	log(document.counter);
 	Event.saveAll();
+}
+
+Event.initAll = function() {
+	var name = $("#new_name").val();
+	var count = parseInt($("#new_count").val());
+	Event.loadSaveAll(Stickers.createNewInf(count, name));
 }
 
 
