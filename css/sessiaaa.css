@@ -84,3 +84,14 @@
 #message_table .del button {
 	color: red;
 }
+
+
+#main_list {
+	width: 400px;
+	min-height: 300px;
+	padding: 10px 30px;
+}
+
+#main_list table {
+	margin-left: 40px;
+}
