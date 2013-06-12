@@ -24,10 +24,40 @@ var Order = Array();
 
 
 var Event = Object();
+Event.enterValueInput = function() {
+	$("#value_modal").modal('hide');
+	Event.applyChangeValue();
+}
+Event.applyChangeValue = function() {
+	var id = $("#value_id").val();
+	var value = $("#value_input").val();
+	if ($("#value_type").val() == 0) { // changeNumber
+		$("#st"+id+" .number").html(value);
+	} else {
+		$("#st"+id+" .aaa").html(value);
+	}
+	return log("applyChangeValue");
+}
+Event.showValueModal = function() {
+	$("#value_modal").modal();
+	setTimeout('$("#value_input").focus();', 1000);
+	return log("applyChangeValue");
+}
 Event.changeNumber = function(it) {
+	var id = Util.getId(it);
+	Event.showValueModal();
+	$("#value_id").val(id);
+	$("#value_type").val(0);
+	$("#value_input").val($("#st"+id+" .number").html());
 	return log("changeNumber");
 }
 Event.changeLabel = function(it) {
+	var id = Util.getId(it);
+	$("#value_id").val(id);
+	$("#value_type").val(1);
+	$("#value_input").val($("#st"+id+" .aaa").html());
+	
+	Event.showValueModal();
 	return log("changeLabel n:" + Util.getId(it));
 }
 Event.deleteThis = function(it) {
@@ -90,4 +120,16 @@ function test() {
 	var simple = new Stickers.funnySticker('enot', 'Еда');
 	//log(Stickers.add(simple));
 	//log(Stickers.length);
+}
+
+
+$.fn.enterKey = function (fnc) {
+    return this.each(function () {
+        $(this).keypress(function (ev) {
+            var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+            if (keycode == '13') {
+                fnc.call(this, ev);
+            }
+        })
+    })
 }

@@ -78,7 +78,28 @@ if (isset($_GET['url'])) {
 		
 		
 
-		<script>
+
+		
+
+
+<div id="value_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Set new Value</h3>
+	</div>
+		<div class="modal-body">
+			<input type="hidden" id="value_type">
+			<input type="hidden" id="value_id">
+			<p>Input new value: <input id="value_input" type="text"></p>	
+		</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="Event.applyChangeValue()">Apply</button>
+	</div>
+</div>
+		
+		
+				<script>
 			test();
 			var fuckY = Render.simpleSticker('0000', '', '&nbsp;');
 			document.counter = 40;
@@ -97,9 +118,9 @@ if (isset($_GET['url'])) {
 				dragBetween: true, 
 				placeHolderTemplate: "<li class = 'emptyLi'>"+fuckY+"</li>" 
 			});
+			$("#value_input").enterKey(function () {
+				Event.enterValueInput();
+			})
 		</script>
-		
-
-		
     </body>
 </html>
