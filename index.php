@@ -39,41 +39,36 @@ if (isset($_GET['url'])) {
 
 
 	
-	
+	<div id="myLabel">label</div>
+
 <!-- Site start -->
-<div class="container-fluid" >				
-
-	<div class="">
-		<div style="width:70%; display:inline-block">
-			<div id="myLabel">label</div>
-			<ul id="sortable" class="sortable">
+<table id = "mainTable" width = "100%"><tr>
+	<td width = "70%" valign = "top" align = "middle">					
+		<ul id="sortable" class="sortable">
+						
+		<script>
+			for (i = 0; i < 4; i++) {
+				document.write("<li>"+Render.simpleSticker('st'+i, i, '&nbsp;')+"</li>");
 				
-<script>
-	for (i = 0; i < 40; i++) {
-		document.write("<li>"+Render.simpleSticker('st'+i, i, '&nbsp;')+"</li>");
-		
-	}
+			}
+			
+		</script>
+		</ul>
+	</td>
 	
-</script>
-			</ul>
+	<td valign = "top">
+		<div class="well ">
+			<p class="text-info">Добавлять отсюда:</p>
+				
+			<table width=100%><tr><td align="center">
+				<ul class="sortable" id="sortable_menu">
+				<!-- funny Tickers -->
+				</ul>				
+			</td></tr></table>
 		</div>
-		<div style="width:20%; display:inline-block">
-			<div class="well ">
-				<p class="text-info">Добавлять отсюда:</p>
-					
-				<table width=100%><tr><td align="center">
-
-<ul class="sortable" id="sortable_menu" >				
-</ul>
-				
-				</td></tr></table>
-					
-				
-				
-		</div>
-	</div>
-</div>		
-	
+	</td>
+			
+</tr></table>				
 <!-- Site end -->
 		
 		
@@ -99,7 +94,10 @@ if (isset($_GET['url'])) {
 </div>
 		
 		
-				<script>
+				<script>	
+					
+				log(JSON.stringify(MessagesMap))	
+				
 			test();
 			var fuckY = Render.simpleSticker('0000', '', '&nbsp;');
 			document.counter = 40;

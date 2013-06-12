@@ -1,29 +1,70 @@
 var Stickers = Array();
 
-// status: 0 - not read, 1 - warning, 2 - bad, 3 - ok
-Stickers.simpleSticker = function(stickerNumber) {
+// status: 0 - not read, 1 - ok, 2 - warning, 3 - bad
+Stickers.simpleSticker = function(stickerId, stickerNumber, status, messageCount) {
 	this.simple = true;
-	this.status = 0;
-	this.messages = Array();
+	this.stickerId = stickerId;
 	this.stickerNumber = stickerNumber;
+	this.status = status;
+	this.messageCount = messageCount;
 }
 
-Stickers.funnySticker = function(stickerType, label) {
+Stickers.funnySticker = function(stickerId, stickerType, label) {
 	this.simple = false;
 	this.stickerType = stickerType;
 	this.label = label;
 }
-// return number of last add
-Stickers.add = function(sticker) {
-	return Stickers.push(sticker) - 1;
+
+Stickers.allInf = function(allTickers, messages, counter) {
+	this.allTickers = allTickers;
+	this.messages = messages;
+	this.counter = counter;
 }
 
+Stickers.getAllStickers = function() {
+	var all = Array();
+	$("#sortable").children().each(function(index) {
+		var it = $(this).find(">div").first().get(0);
+		if (it == undefined) {
+			return;
+		}
+		var id = Util.getNumber(it.id);
+		if ($(it).find(".funny-label").length > 0) { // e.t. funny Sticker
+			var label = $(it).find(".funny-label").html();
+			var imgUrl = $(it).find(".imgMy").css("background-image");
+			var stickerType = Util.getFunnyType(imgUrl);
+			
+			all[index] = new Stickers.funnySticker(id, stickerType, label);
+		} else {
+			var number = $(this).find(".number").html();
+			var messageCount = $(this).find(".message_counter").html();
+			var status = 0;
+			if ( $(this).find(".number.text-success").length > 0) {
+				status = 1;
+			}
+			if ( $(this).find(".number.text-warning").length > 0) {
+				status = 2;
+			}
+			if ( $(this).find(".number.text-error").length > 0) {
+				status = 3;
+			}
+			all[index] = new Stickers.simpleSticker(id, number, status, messageCount);
+		}
+	});	
+	return all;
+}
 
-var Order = Array();
+var MessagesMap = Array();
 
 
+////------------------------------------------------ Events -----------------------------------------------
 
 var Event = Object();
+Event.saveAll = function() {
+	
+} 
+
+
 Event.enterValueInput = function() {
 	$("#value_modal").modal('hide');
 	Event.applyChangeValue();
@@ -34,7 +75,7 @@ Event.applyChangeValue = function() {
 	if ($("#value_type").val() == 0) { // changeNumber
 		$("#st"+id+" .number").html(value);
 	} else {
-		$("#st"+id+" .aaa").html(value);
+		$("#st"+id+" .funny-label").html(value);
 	}
 	return log("applyChangeValue");
 }
@@ -55,7 +96,7 @@ Event.changeLabel = function(it) {
 	var id = Util.getId(it);
 	$("#value_id").val(id);
 	$("#value_type").val(1);
-	$("#value_input").val($("#st"+id+" .aaa").html());
+	$("#value_input").val($("#st"+id+" .funny-label").html());
 	
 	Event.showValueModal();
 	return log("changeLabel n:" + Util.getId(it));
@@ -96,6 +137,11 @@ var Util = Object();
 Util.getNumber = function(id) {
 	return parseInt(id.substring(2)) + 0;
 }
+Util.getFunnyType = function(url) {
+	var start = url.indexOf("img/") + 4;
+	var end = url.length - 6;
+	return parseInt(url.substring(start, end)) + 0;
+}
 Util.getId = function(it) {
 	temp = it;
 	while(temp != null) {
@@ -106,9 +152,13 @@ Util.getId = function(it) {
 	}
 }
 
+
+////------------------------------------------------ utils -----------------------------------------------
+
 function log(message) {
 	$("#myLabel").html(message);
 	console.log(message);
+	Event.saveAll();
 	return false;
 }
 
@@ -121,6 +171,7 @@ function test() {
 	//log(Stickers.add(simple));
 	//log(Stickers.length);
 }
+
 
 
 $.fn.enterKey = function (fnc) {

@@ -13,10 +13,10 @@
 	padding: 0;
 	margin: 0;
 }
-.sticker .aaa  {
-	width: 86%;
+.sticker .funny-label  {
+	width: 84%;
 }
-.sticker .aaa2  {
+.sticker .down-arrow  {
 	width: 14%;
 }
 
@@ -42,7 +42,6 @@
 
 
 .sortable {
-	border: 1px solid red;
 	vertical-align: top;
 	display:table-cell;
 	list-style: none;
@@ -54,11 +53,10 @@
 
 #sortable>li {  
 	display: inline-block;
-	padding:3px;
+	padding:5px;
 	width:160px !important;
 	height:170px !important;
 }
 .emptyLi {
-		background-color:white !important; 
-		opacity:0;
+	opacity:0;
 }
