@@ -87,9 +87,8 @@
 
 
 #main_list {
-	width: 400px;
-	min-height: 300px;
-	padding: 10px 30px;
+	min-height: 200px;
+	padding: 20px 30px;
 }
 
 #main_list table {
