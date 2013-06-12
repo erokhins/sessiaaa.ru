@@ -31,18 +31,30 @@ Event.changeLabel = function(it) {
 	return log("changeLabel n:" + Util.getId(it));
 }
 Event.deleteThis = function(it) {
+	var id = Util.getId(it);
+	$("#st"+id).parent().remove();
 	return log("deleteThis n:" + Util.getId(it));
 }
 Event.clearThis = function(it) {
+	var id = Util.getId(it);
+	$("#st"+id+" .number").removeClass(Event.allTextClasses)
 	return log("clearThis n:" + Util.getId(it));
 }
+
+Event.allTextClasses = "text-success text-warning text-error";
 Event.okClick = function(it) {
+	var id = Util.getId(it);
+	$("#st"+id+" .number").removeClass(Event.allTextClasses).addClass("text-success");
 	return log("okCLick n:" + Util.getId(it));
 }
 Event.warningClick = function(it) {
+	var id = Util.getId(it);
+	$("#st"+id+" .number").removeClass(Event.allTextClasses).addClass("text-warning");
 	return log("warningCLick n:" + Util.getId(it));
 }
 Event.errorClick = function(it) {
+	var id = Util.getId(it);
+	$("#st"+id+" .number").removeClass(Event.allTextClasses).addClass("text-error");
 	return log("errorCLick n:" + Util.getId(it));
 }
 Event.messageClick = function(it) {

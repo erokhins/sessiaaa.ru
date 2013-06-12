@@ -41,18 +41,17 @@ if (isset($_GET['url'])) {
 	
 	
 <!-- Site start -->
-<div class="container-fluid">				
+<div class="container-fluid" >				
 
 	<div class="">
 		<div style="width:70%; display:inline-block">
 			<div id="myLabel">label</div>
-			<ul id="sortable">
+			<ul id="sortable" class="sortable">
 				
 <script>
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < 40; i++) {
 		document.write("<li>"+Render.simpleSticker('st'+i, i, '&nbsp;')+"</li>");
 		
-		document.write("<li>"+Render.funnySticker('st10'+i, '/img/'+i+'.jpg', "label: " + i)+"</li>");	
 	}
 	
 </script>
@@ -64,12 +63,8 @@ if (isset($_GET['url'])) {
 					
 				<table width=100%><tr><td align="center">
 
-
-<script>
-	for (i = 0; i < -1; i++) {
-		document.write(Render.simpleSticker('st'+i, i, '&nbsp;'));	
-	}
-</script>
+<ul class="sortable" id="sortable_menu" >				
+</ul>
 				
 				</td></tr></table>
 					
@@ -86,12 +81,21 @@ if (isset($_GET['url'])) {
 		<script>
 			test();
 			var fuckY = Render.simpleSticker('0000', '', '&nbsp;');
-			$("#sortable").dragsort({ 
+			document.counter = 40;
+			function step() {
+				$("#sortable_menu").html(Render.allFunny('st' + document.counter));
+				document.counter = document.counter + 1;
+				log(document.counter);
+			}
+			
+			step();
+			step();
+			$(".sortable").dragsort({ 
 				dragSelector: "li", 
-				dragEnd: function() { }, 
+				dragEnd: function() { step() }, 
 				dragBetween: true, 
 				placeHolderTemplate: "<li class = 'emptyLi'>"+fuckY+"</li>" 
-				});
+			});
 		</script>
 		
 
