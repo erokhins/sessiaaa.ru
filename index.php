@@ -6,10 +6,13 @@ if (isset($_GET['url'])) {
 	$id = 0;
 }
 
-
-
-
-
+session_start();
+if (isset($_SESSION['saveAll'])) {
+	$saveAll = addslashes($_SESSION['saveAll']);
+	$saveAll = str_replace("\n", "", $saveAll);	
+} else {
+	$saveAll = '';
+}
 
 
 
@@ -35,6 +38,10 @@ if (isset($_GET['url'])) {
 
     </head>
     <body>
+<script>
+	var saveAll = "<?=$saveAll?>";
+</script>	
+		
 		<h1 class="text-center">Hello, Sessia number <?=$id?></h1>
 
 
@@ -46,13 +53,7 @@ if (isset($_GET['url'])) {
 	<td width = "70%" valign = "top" align = "middle">					
 		<ul id="sortable" class="sortable">
 						
-		<script>
-			for (i = 0; i < 4; i++) {
-				document.write("<li>"+Render.simpleSticker('st'+i, i, '&nbsp;')+"</li>");
-				
-			}
-			
-		</script>
+
 		</ul>
 	</td>
 	
@@ -73,14 +74,39 @@ if (isset($_GET['url'])) {
 		
 		
 
-
+<div id="message_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Add comments</h3>
+	</div>
+		<div class="modal-body text-center">
+			<input type="hidden" id="message_id">
+			<table id="message_table">
+				<tr>
+					<td class = "message">Тут моё сообщение!</td>
+					<td class = "del"><button type="button" class="close">×</button></td>
+				</tr>
+				<tr>
+					<td class = "message">Тут моё сообщение!</td>
+					<td class = "del"><button type="button" class="close" onclick="Event.deleteMessage(1);">×</button></td>
+				</tr>
+			</table>
+			
+			<textarea id="message_text" >
+			
+			</textarea>
+			
+			<div class="text-right"><button class="btn btn-primary" onclick="Event.addMessage();">Add</button></div>
+		</div>
+	
+</div>
 		
 
 
 <div id="value_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="myModalLabel">Set new Value</h3>
+		<h3 id="myModalLabel">Set new value</h3>
 	</div>
 		<div class="modal-body">
 			<input type="hidden" id="value_type">
@@ -88,7 +114,6 @@ if (isset($_GET['url'])) {
 			<p>Input new value: <input id="value_input" type="text"></p>	
 		</div>
 	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="Event.applyChangeValue()">Apply</button>
 	</div>
 </div>
@@ -96,23 +121,18 @@ if (isset($_GET['url'])) {
 		
 				<script>	
 					
-				log(JSON.stringify(MessagesMap))	
-				
-			test();
-			var fuckY = Render.simpleSticker('0000', '', '&nbsp;');
-			document.counter = 40;
-			function step() {
-				$("#sortable_menu").html(Render.allFunny('st' + document.counter));
-				document.counter = document.counter + 1;
-				log(document.counter);
+			if (saveAll.length == 0 ) {
+				Event.loadSaveAll(Stickers.createNewInf(22));
+			} else {
+				Event.loadSaveAll(JSON.parse(saveAll));		
 			}
+			var fuckY = Render.simpleSticker('0000', '', '&nbsp;');
 			
-			step();
-			step();
+			Event.dragEnd();
 			$(".sortable").dragsort({ 
 				dragSelector: ".number", 
 				itemSelector: "li", 
-				dragEnd: function() { step() }, 
+				dragEnd: function() { Event.dragEnd(); }, 
 				dragBetween: true, 
 				placeHolderTemplate: "<li class = 'emptyLi'>"+fuckY+"</li>" 
 			});

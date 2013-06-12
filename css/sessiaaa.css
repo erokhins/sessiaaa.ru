@@ -60,3 +60,27 @@
 .emptyLi {
 	opacity:0;
 }
+
+
+
+/*message_modal*/
+
+#message_text {
+	margin-top: 40px;
+	width: 90%;
+}
+#message_table {
+	padding: 20px;
+	width: 90%;
+}
+#message_table .message {
+	text-align: left;
+	padding: 6px;
+	padding-left: 30px;
+}
+#message_table .del {
+	padding:6px;
+}
+#message_table .del button {
+	color: red;
+}

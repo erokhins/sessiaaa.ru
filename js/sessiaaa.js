@@ -11,14 +11,40 @@ Stickers.simpleSticker = function(stickerId, stickerNumber, status, messageCount
 
 Stickers.funnySticker = function(stickerId, stickerType, label) {
 	this.simple = false;
+	this.stickerId = stickerId;
 	this.stickerType = stickerType;
 	this.label = label;
 }
 
-Stickers.allInf = function(allTickers, messages, counter) {
-	this.allTickers = allTickers;
+Stickers.allInf = function(allStickers, messages, counter) {
+	this.allStickers = allStickers;
 	this.messages = messages;
 	this.counter = counter;
+}
+
+Stickers.renderAllStickers = function(all) {
+	var s = '';
+	for (i = 0; i < all.length; i++) {
+		if(all[i] != null) {
+			var it = all[i];
+			if (it.simple) { ////-----------
+				var specialType = '';
+				if (it.status == 1) {
+					specialType = "text-success";
+				}
+				if (it.status == 2) {
+					specialType = "text-warning";
+				}
+				if (it.status == 3) {
+					specialType = "text-error";
+				}
+				s = s + "<li>"+Render.simpleSticker("st"+ it.stickerId, it.stickerNumber, it.messageCount, specialType) + "</li>";
+			} else {
+				s = s + "<li>"+ Render.funnySticker("st"+it.stickerId, "/img/"+it.stickerType+".jpg", it.label) + "</li>";
+			}
+		}
+	}
+	return s;
 }
 
 Stickers.getAllStickers = function() {
@@ -32,7 +58,9 @@ Stickers.getAllStickers = function() {
 		if ($(it).find(".funny-label").length > 0) { // e.t. funny Sticker
 			var label = $(it).find(".funny-label").html();
 			var imgUrl = $(it).find(".imgMy").css("background-image");
+			log(imgUrl);
 			var stickerType = Util.getFunnyType(imgUrl);
+			log(stickerType);
 			
 			all[index] = new Stickers.funnySticker(id, stickerType, label);
 		} else {
@@ -54,16 +82,48 @@ Stickers.getAllStickers = function() {
 	return all;
 }
 
+Stickers.createAllInf = function() {
+	return new Stickers.allInf(Stickers.getAllStickers(), MessagesMap, Event.counter);
+}
+
+Stickers.createNewInf = function(count) {
+	var all = Array();
+	for (i = 0; i< count; i++) {
+		all[i] = new Stickers.simpleSticker(i+1, i+1, 0, ' ');
+	}
+	return new Stickers.allInf(all, Array(), count+2);
+}
+
 var MessagesMap = Array();
 
 
 ////------------------------------------------------ Events -----------------------------------------------
 
+
 var Event = Object();
+Event.counter = 10;
+
 Event.saveAll = function() {
-	
+	$.post("/ajax.php", {"saveAll": JSON.stringify(Stickers.createAllInf())});
 } 
 
+Event.loadSaveAll = function(ob) {
+//	var ob = jQuery.parseJSON(saveAll);
+	MessagesMap = ob.messages;
+	Event.counter = ob.counter;
+	$("#sortable").html(Stickers.renderAllStickers(ob.allStickers));
+	Event.dragEnd(false);
+}
+
+Event.dragEnd = function(update) {
+	$("#sortable_menu").html(Render.allFunny('st' + Event.counter));
+	Event.counter = Event.counter + 1;
+	log(document.counter);
+	Event.saveAll();
+}
+
+
+///////-------- 
 
 Event.enterValueInput = function() {
 	$("#value_modal").modal('hide');
@@ -77,11 +137,13 @@ Event.applyChangeValue = function() {
 	} else {
 		$("#st"+id+" .funny-label").html(value);
 	}
+	
+	Event.saveAll();
 	return log("applyChangeValue");
 }
 Event.showValueModal = function() {
 	$("#value_modal").modal();
-	setTimeout('$("#value_input").focus();', 1000);
+	setTimeout('$("#value_input").focus();', 700);
 	return log("applyChangeValue");
 }
 Event.changeNumber = function(it) {
@@ -101,14 +163,20 @@ Event.changeLabel = function(it) {
 	Event.showValueModal();
 	return log("changeLabel n:" + Util.getId(it));
 }
+
+
 Event.deleteThis = function(it) {
 	var id = Util.getId(it);
 	$("#st"+id).parent().remove();
+	
+	Event.saveAll();
 	return log("deleteThis n:" + Util.getId(it));
 }
 Event.clearThis = function(it) {
 	var id = Util.getId(it);
-	$("#st"+id+" .number").removeClass(Event.allTextClasses)
+	$("#st"+id+" .number").removeClass(Event.allTextClasses);
+	
+	Event.saveAll();
 	return log("clearThis n:" + Util.getId(it));
 }
 
@@ -116,20 +184,76 @@ Event.allTextClasses = "text-success text-warning text-error";
 Event.okClick = function(it) {
 	var id = Util.getId(it);
 	$("#st"+id+" .number").removeClass(Event.allTextClasses).addClass("text-success");
+	
+	Event.saveAll();
 	return log("okCLick n:" + Util.getId(it));
 }
 Event.warningClick = function(it) {
 	var id = Util.getId(it);
 	$("#st"+id+" .number").removeClass(Event.allTextClasses).addClass("text-warning");
+	
+	Event.saveAll();
 	return log("warningCLick n:" + Util.getId(it));
 }
 Event.errorClick = function(it) {
 	var id = Util.getId(it);
 	$("#st"+id+" .number").removeClass(Event.allTextClasses).addClass("text-error");
+	
+	Event.saveAll();
 	return log("errorCLick n:" + Util.getId(it));
 }
+
+Event.showMessageModal = function() {
+
+	$("#message_modal").modal();
+	setTimeout('$("#message_text").focus();', 700);
+	return log("applyChangeValue");
+}
+
 Event.messageClick = function(it) {
+	var id = Util.getId(it);
+	if (MessagesMap[id] == undefined) {
+		MessagesMap[id] = Array();
+	}
+	Event.setMessages(id);
+	$("#message_id").val(id);
+	$("#message_text").html('');
+	
+	Event.showMessageModal();
 	return log("messageCLick n:" + Util.getId(it));
+}
+
+Event.deleteMessage = function(index) {
+	var id = $("#message_id").val();
+	MessagesMap[id].splice(index, 1);
+	Event.setMessages(id);
+	Event.updateMessageCounter(id);
+	
+	
+}
+
+Event.addMessage = function() {
+	var id = $("#message_id").val();
+	var value = $("#message_text").val().replace("\n", "<br />");
+	MessagesMap[id].push(value);
+	
+	$("#message_text").val('');
+	Event.setMessages(id);
+	Event.updateMessageCounter(id);
+}
+
+Event.updateMessageCounter = function(id) {
+	var length = MessagesMap[id].length;
+	if (length == 0) {
+		length = ' ';
+	}
+	$("#st" + id + " .message_counter").html(length);
+	
+	Event.saveAll();
+}
+
+Event.setMessages = function(id) {
+	$("#message_table").html(Render.messages(MessagesMap[id]));
 }
 
 
@@ -139,7 +263,7 @@ Util.getNumber = function(id) {
 }
 Util.getFunnyType = function(url) {
 	var start = url.indexOf("img/") + 4;
-	var end = url.length - 6;
+	var end = url.indexOf(".jpg");
 	return parseInt(url.substring(start, end)) + 0;
 }
 Util.getId = function(it) {
@@ -158,7 +282,6 @@ Util.getId = function(it) {
 function log(message) {
 	$("#myLabel").html(message);
 	console.log(message);
-	Event.saveAll();
 	return false;
 }
 
