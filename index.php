@@ -91,7 +91,8 @@ if (isset($_GET['url'])) {
 			step();
 			step();
 			$(".sortable").dragsort({ 
-				dragSelector: "li", 
+				dragSelector: ".number", 
+				itemSelector: "li", 
 				dragEnd: function() { step() }, 
 				dragBetween: true, 
 				placeHolderTemplate: "<li class = 'emptyLi'>"+fuckY+"</li>" 
