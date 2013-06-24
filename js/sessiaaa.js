@@ -145,10 +145,15 @@ Event.enterValueInput = function() {
 Event.applyChangeValue = function() {
 	var id = $("#value_id").val();
 	var value = $("#value_input").val();
-	if ($("#value_type").val() == 0) { // changeNumber
+	var type = $("#value_type").val();
+	if (type == 0) { // changeNumber
 		$("#st"+id+" .number").html(value);
-	} else {
+	}
+	if (type == 1) {
 		$("#st"+id+" .funny-label").html(value);
+	}
+	if (type == 2) {
+		$("#main_name").html(value);
 	}
 	
 	Event.saveAll();
@@ -175,6 +180,15 @@ Event.changeLabel = function(it) {
 	
 	Event.showValueModal();
 	return log("changeLabel n:" + Util.getId(it));
+}
+
+Event.changeName = function() {
+	$("#value_id").val(0);
+	$("#value_type").val(2);
+	
+	$("#value_input").val($("#main_name").html());
+	
+	Event.showValueModal();
 }
 
 
@@ -293,8 +307,8 @@ Util.getId = function(it) {
 ////------------------------------------------------ utils -----------------------------------------------
 
 function log(message) {
-	$("#myLabel").html(message);
-	console.log(message);
+	//$("#myLabel").html(message);
+	//console.log(message);
 	return false;
 }
 
@@ -316,6 +330,16 @@ $.fn.enterKey = function (fnc) {
             var keycode = (ev.keyCode ? ev.keyCode : ev.which);
             if (keycode == '13') {
                 fnc.call(this, ev);
+            }
+        })
+    })
+}
+
+$.fn.ctrlEnter = function (fnc) {
+    return this.each(function () {
+        $(this).keydown(function (e) {
+             if (e.ctrlKey && e.keyCode == 13) {
+                fnc.call(this, e);
             }
         })
     })

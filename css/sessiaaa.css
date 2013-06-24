@@ -8,6 +8,14 @@
 .sticker {
 	width: 160px !important;
 	background-color: #fff;
+	box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+	padding: 10px;
+}
+
+.sticker.well {
+	border: 1px ;
+	border-radius: 6px !important;
+
 }
 .sticker .container-fluid { 
 	padding: 0;
@@ -94,3 +102,45 @@
 #main_list table {
 	margin-left: 40px;
 }
+
+#vk_like1 {
+	position: absolute;
+	right: 30px;
+	top: 24px;
+}
+
+#values_menu {
+	position: absolute;
+	top: 15px;
+	left: 30px;
+}
+
+#main_name {	
+	padding: 15px;
+}
+
+h1.text-center {
+	font-weight:100;
+	font-size: 50px;
+	margin: 15px;
+	margin-bottom: 45px;
+}
+
+.icon-pencil {
+	margin-top:26px;
+	opacity: 0.1;
+	cursor: pointer;
+}
+.icon-pencil:hover {
+	opacity: 0.5;
+}
+
+
+ .fade {
+   opacity: 0;
+   -webkit-transition: opacity 0.05s linear;
+      -moz-transition: opacity 0.05s linear;
+       -ms-transition: opacity 0.05s linear;
+        -o-transition: opacity 0.05s linear;
+           transition: opacity 0.05s linear;
+ }

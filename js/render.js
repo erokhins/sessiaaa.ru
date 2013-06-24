@@ -21,12 +21,12 @@ Render.messages = function(messages) {
 	return s;
 }
 
-Render.labels = Array("Лениться", "Спать", "Пить чай", "Гулять");
+Render.labels = Array("Лениться", "Спать", "Пить чай", "Гулять", "Пить вино", "Расслабиться", "Читать", "Посмотреть кино", "Умыться", "Прибраться");
 
 
 Render.allFunny = function(stickerId) {
 	var s = '';
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < 10; i++) {
 		s = s + "<li>"+Render.funnySticker(stickerId, '/img/'+i+'.jpg', Render.labels[i])+"</li>" + '\n';	
 	}	
 	
